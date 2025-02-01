@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 if os.getenv('DJANGO_ENV') == 'production':
     from azure.cosmos import CosmosClient
     COSMOSDB_ACCOUNT_URI = 'https://mycosmosdb2705.documents.azure.com:443/'
-    COSMOSDB_ACCOUNT_KEY = os.getenv('COSMOSDB_ACCOUNT_KEY')
+    COSMOSDB_ACCOUNT_KEY = '5FLK1JckqXFnXCtOzzaLNnQlXgPLYfisAEpWeQTjIJoT4B6XTnCkr0vujgiyCt6leKHWWQmGFPAxACDbCAEASQ=='
     COSMOSDB_DATABASE = 'mydatabase'
 
     DATABASES = {
@@ -159,7 +159,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 if os.getenv('DJANGO_ENV') == 'production':
     DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
     AZURE_ACCOUNT_NAME = 'mystorageaccount2705'
-    AZURE_ACCOUNT_KEY = os.getenv('AZURE_ACCOUNT_KEY')
+    AZURE_ACCOUNT_KEY = 'SQtLI281gQEFMs1eP7bv8iSlgntQNJAtTjg+euEN5g1SyelGT4xu9XvkLlpMehFbyUfFCuqqcs5h+ASt75z2vQ=='
     AZURE_CONTAINER = 'mycontainer'
 else:
     DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
