@@ -26,8 +26,11 @@ SECRET_KEY = 'django-insecure-5l13b!8o0*63#pjjcbntag_pa3o77+l8)zem+tze3m6wt$!^yp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    'localhost', 
+    '127.0.0.1', 
+    'djangosocialmediaapplication-bxcdgdbub8ede9bx.centralus-01.azurewebsites.net'
+]
 
 # Application definition
 
