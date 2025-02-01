@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -81,12 +82,32 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if os.getenv('DJANGO_ENV') == 'production':
+    from azure.cosmos import CosmosClient
+    COSMOSDB_ACCOUNT_URI = 'https://mycosmosdb2705.documents.azure.com:443/'
+    COSMOSDB_ACCOUNT_KEY = '5FLK1JckqXFnXCtOzzaLNnQlXgPLYfisAEpWeQTjIJoT4B6XTnCkr0vujgiyCt6leKHWWQmGFPAxACDbCAEASQ=='
+    COSMOSDB_DATABASE = 'mydatabase'
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': COSMOSDB_DATABASE,
+            'USER': 'mycosmosdb',
+            'PASSWORD': COSMOSDB_ACCOUNT_KEY,
+            'HOST': 'mycosmosdb.documents.azure.com',
+            'PORT': '5432',
+            'OPTIONS': {
+                'sslmode': 'require',
+            },
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -133,3 +154,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Azure Blob Storage Configuration
+if os.getenv('DJANGO_ENV') == 'production':
+    DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
+    AZURE_ACCOUNT_NAME = 'mystorageaccount2705'
+    AZURE_ACCOUNT_KEY = 'SQtLI281gQEFMs1eP7bv8iSlgntQNJAtTjg+euEN5g1SyelGT4xu9XvkLlpMehFbyUfFCuqqcs5h+ASt75z2vQ=='
+    AZURE_CONTAINER = 'mycontainer'
+else:
+    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
